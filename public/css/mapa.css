@@ -1,0 +1,344 @@
+/**
+ * FireTrace - Monitor de Incendios Bolivia
+ * NASA Space Apps Challenge 2026
+ * Estilos de Mapas Leaflet y Visualización Espacial (mapa.css)
+ */
+
+/* 1. OVERRIDE DEL TEMA DE LEAFLET PARA FONDO OSCURO */
+.leaflet-container {
+  background-color: #06090f !important;
+  font-family: var(--font-body) !important;
+  color: var(--text-main) !important;
+  outline: none;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* Filtro oscuro para capas de tiles estándar si no son oscuras por defecto */
+.leaflet-tile-pane.dark-tiles img {
+  filter: brightness(0.65) invert(1) contrast(3) hue-rotate(200deg) saturate(0.35) brightness(0.7);
+}
+
+/* Controles de Zoom oscuros */
+.leaflet-bar a {
+  background-color: var(--bg-surface-elevated) !important;
+  border-color: var(--border-light) !important;
+  color: var(--text-main) !important;
+  transition: all 0.2s ease !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: var(--bg-glass-hover) !important;
+  color: var(--fire-secondary) !important;
+  border-color: var(--fire-primary) !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(10, 15, 29, 0.75) !important;
+  color: var(--text-muted) !important;
+  font-size: 0.65rem !important;
+  backdrop-filter: blur(4px);
+}
+.leaflet-control-attribution a {
+  color: var(--fire-secondary) !important;
+}
+
+/* 2. POPUP PERSONALIZADO OSCURO CON BORDE DE FUEGO */
+.leaflet-popup-content-wrapper {
+  background: rgba(16, 24, 40, 0.94) !important;
+  color: var(--text-main) !important;
+  border: 1px solid rgba(255, 77, 46, 0.5) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 77, 46, 0.25) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  padding: 0.25rem !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(16, 24, 40, 0.94) !important;
+  border: 1px solid rgba(255, 77, 46, 0.5) !important;
+  box-shadow: none !important;
+}
+
+.leaflet-popup-close-button {
+  color: var(--text-muted) !important;
+  padding: 8px !important;
+  font-size: 1.1rem !important;
+  transition: color 0.2s ease;
+}
+.leaflet-popup-close-button:hover {
+  color: var(--fire-primary) !important;
+}
+
+.map-popup {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 220px;
+}
+
+.map-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 0.4rem;
+}
+
+.map-popup-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.map-popup-body {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.map-popup-stat {
+  display: flex;
+  justify-content: space-between;
+}
+
+.map-popup-stat-label {
+  color: var(--text-muted);
+}
+
+.map-popup-stat-val {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* 3. MARCADORES PERSONALIZADOS (RIESGO Y FUEGO) */
+.custom-fire-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.custom-fire-marker:hover {
+  transform: scale(1.25) !important;
+  z-index: 1000 !important;
+}
+
+.marker-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* Marcador Extremo / Crítico */
+.marker-extremo .marker-inner {
+  background: radial-gradient(circle, #ffeedd 0%, #ff4d2e 60%, #b91c1c 100%);
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 16px rgba(255, 77, 46, 0.9);
+  animation: markerPulseExtremo 1.5s infinite ease-in-out;
+}
+
+/* Marcador Alto */
+.marker-alto .marker-inner {
+  background: radial-gradient(circle, #ffedd5 0%, #f97316 60%, #c2410c 100%);
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.8);
+  animation: markerPulseAlto 2s infinite ease-in-out;
+}
+
+/* Marcador Medio */
+.marker-medio .marker-inner {
+  background: radial-gradient(circle, #fef9c3 0%, #eab308 60%, #a16207 100%);
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 0 8px rgba(234, 179, 8, 0.7);
+}
+
+/* Marcador Bajo */
+.marker-bajo .marker-inner {
+  background: radial-gradient(circle, #dcfce7 0%, #22c55e 60%, #15803d 100%);
+  border: 1px solid #ffffff;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+}
+
+@keyframes markerPulseExtremo {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 12px rgba(255, 77, 46, 0.8); }
+  50% { transform: scale(1.15); box-shadow: 0 0 24px rgba(255, 77, 46, 1); }
+}
+
+@keyframes markerPulseAlto {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(249, 115, 22, 0.7); }
+  50% { transform: scale(1.1); box-shadow: 0 0 18px rgba(249, 115, 22, 0.9); }
+}
+
+/* 4. CONTROL DE LAYERS OSCURO */
+.leaflet-control-layers {
+  background: rgba(16, 24, 40, 0.88) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  color: var(--text-main) !important;
+  backdrop-filter: blur(12px) !important;
+  padding: 0.75rem 1rem !important;
+}
+
+.leaflet-control-layers-toggle {
+  background-color: var(--bg-surface-elevated) !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+.leaflet-control-layers-expanded {
+  padding: 0.85rem !important;
+  font-size: 0.85rem !important;
+}
+
+.leaflet-control-layers label {
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+/* 5. LEYENDA DEL MAPA EN LA ESQUINA INFERIOR DERECHA */
+.map-legend {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 800;
+  background: rgba(16, 24, 40, 0.88);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.15rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.map-legend-title {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  color: var(--text-main);
+}
+
+.legend-color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* 6. PANEL DE INFORMACIÓN FLOTANTE SOBRE EL MAPA */
+.map-info-panel {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 800;
+  width: 300px;
+  background: rgba(16, 24, 40, 0.88);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.map-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.map-info-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* 7. LEYENDA DEL MAPA DE CALOR (.heatmap-legend) */
+.heatmap-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.heatmap-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, #22c55e 0%, #eab308 30%, #f97316 60%, #ef4444 85%, #d946ef 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.heatmap-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+/* 8. BOTONES DE MODO VISUAL (Mapa de Calor / Focos / Ambos) - Incendio en Vivo y Mapa Incendios */
+.vivo-view-mode {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.vivo-view-mode:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.vivo-view-mode.active {
+  background: rgba(255, 77, 46, 0.25);
+  color: #ff6a4d;
+  border: 1px solid rgba(255, 77, 46, 0.4);
+}
+
+/* Punto satelital NASA en mapa táctico de Incendio en Vivo */
+.vivo-sat-dot {
+  background: transparent !important;
+  border: none !important;
+}

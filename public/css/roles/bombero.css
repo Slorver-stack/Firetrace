@@ -1,0 +1,349 @@
+/* ============================================================
+   FIRETRACE — CSS BOMBERO RESPUESTA
+   Panel táctico para bomberos forestales
+   ============================================================ */
+
+/* ── Panel principal del bombero ── */
+.bombero-panel {
+  display: block;          /* Deja que Bootstrap row/col manejen el layout */
+  padding: 1.2rem;
+  animation: fadeInPanel 0.5s ease;
+}
+
+@keyframes fadeInPanel {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header de estado del bombero ── */
+.bombero-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(180,40,10,0.18), rgba(30,10,5,0.6));
+  border: 1px solid rgba(220,80,30,0.3);
+  border-radius: 14px;
+  padding: 1.1rem 1.6rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.bombero-header-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bombero-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c0280a, #ff6530);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: #fff;
+  box-shadow: 0 0 18px rgba(220,80,30,0.5);
+}
+
+.bombero-nombre {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f5d5b0;
+}
+
+.bombero-unidad {
+  font-size: 0.8rem;
+  color: #a08060;
+}
+
+/* ── Selector de estado ── */
+.estado-select {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(220,80,30,0.4);
+  background: rgba(20,8,3,0.8);
+  color: #f0d5b0;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.estado-select:focus {
+  outline: none;
+  border-color: #dc501e;
+  box-shadow: 0 0 12px rgba(220,80,30,0.3);
+}
+
+/* ── Mapa táctico ── */
+.mapa-tactico-container {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(220,80,30,0.25);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.mapa-tactico-container .mapa-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(15,5,2,0.9);
+  border-bottom: 1px solid rgba(220,80,30,0.2);
+}
+
+.mapa-tactico-container .mapa-header h3 {
+  font-size: 0.9rem;
+  color: #f0c880;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#mapaTactico {
+  height: 340px;
+  width: 100%;
+  background: #0a0401;
+}
+
+.mapa-capas-toggle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.capa-btn {
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid rgba(220,80,30,0.3);
+  background: rgba(220,80,30,0.1);
+  color: #f0c880;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.capa-btn.activa {
+  background: rgba(220,80,30,0.35);
+  border-color: #dc501e;
+}
+
+/* ── Cards de incendios activos ── */
+.incendios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.incendio-card-tactico {
+  background: rgba(20,8,3,0.75);
+  border: 1px solid rgba(220,80,30,0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.incendio-card-tactico:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(220,80,30,0.2);
+  border-color: rgba(220,80,30,0.45);
+}
+
+.incendio-card-tactico .card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+}
+
+.incendio-card-tactico h4 {
+  font-size: 0.9rem;
+  color: #f5d5b0;
+  font-weight: 600;
+}
+
+.incendio-card-tactico .card-meta {
+  font-size: 0.75rem;
+  color: #a08060;
+  margin-bottom: 0.6rem;
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.incendio-card-tactico .card-meta i {
+  font-size: 0.85rem;
+}
+
+.btn-navegar {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(220,80,30,0.4);
+  background: linear-gradient(135deg, rgba(220,80,30,0.2), rgba(180,40,10,0.3));
+  color: #f0c880;
+  font-size: 0.78rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all 0.2s;
+}
+
+.btn-navegar:hover {
+  background: linear-gradient(135deg, rgba(220,80,30,0.4), rgba(180,40,10,0.5));
+  box-shadow: 0 4px 12px rgba(220,80,30,0.3);
+}
+
+/* ── Peligrosidad badges ── */
+.peligro-bajo    { background: rgba(40,180,70,0.2);  color: #5de880; border: 1px solid rgba(40,180,70,0.4); }
+.peligro-medio   { background: rgba(240,190,20,0.2); color: #f5d050; border: 1px solid rgba(240,190,20,0.4); }
+.peligro-alto    { background: rgba(240,120,20,0.2); color: #f5901e; border: 1px solid rgba(240,120,20,0.4); }
+.peligro-critico { background: rgba(220,30,30,0.2);  color: #ff5050; border: 1px solid rgba(220,30,30,0.4); animation: pulsePeligro 1.4s ease infinite; }
+
+@keyframes pulsePeligro {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220,30,30,0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(220,30,30,0); }
+}
+
+/* ── Panel meteorológico ── */
+.meteo-bombero {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.7rem;
+}
+
+.meteo-item-bombero {
+  background: rgba(15,5,2,0.7);
+  border: 1px solid rgba(200,120,40,0.2);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.meteo-item-bombero i {
+  font-size: 1.4rem;
+  color: #dc8030;
+}
+
+.meteo-item-bombero .meteo-valor {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f5d5b0;
+}
+
+.meteo-item-bombero .meteo-label {
+  font-size: 0.7rem;
+  color: #a08060;
+}
+
+/* ── Checklist de equipo ── */
+.checklist-equipo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  background: rgba(15,5,2,0.5);
+  border: 1px solid rgba(200,120,40,0.15);
+  font-size: 0.82rem;
+  color: #c0a080;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checklist-item input[type="checkbox"] {
+  accent-color: #dc8030;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.checklist-item.checked {
+  background: rgba(40,180,70,0.1);
+  border-color: rgba(40,180,70,0.3);
+  color: #80e0a0;
+  text-decoration: line-through;
+}
+
+/* ── Botón SOS ── */
+.btn-sos {
+  background: linear-gradient(135deg, #c01010, #ff2020);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(200,16,16,0.5);
+  animation: pulseSOSBtn 2s ease infinite;
+}
+
+.btn-sos:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 28px rgba(200,16,16,0.7);
+}
+
+@keyframes pulseSOSBtn {
+  0%, 100% { box-shadow: 0 4px 20px rgba(200,16,16,0.5); }
+  50%       { box-shadow: 0 6px 32px rgba(200,16,16,0.8); }
+}
+
+/* ── Lista de recursos ── */
+.recursos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.recurso-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.9rem;
+  background: rgba(15,5,2,0.6);
+  border: 1px solid rgba(200,120,40,0.15);
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: #c0a080;
+}
+
+.recurso-item i {
+  color: #dc8030;
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+.recurso-distancia {
+  font-size: 0.73rem;
+  color: #808060;
+  background: rgba(240,190,20,0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+}
+
+/* ── Responsivo ── */
+@media (max-width: 900px) {
+  .bombero-panel { grid-template-columns: 1fr; }
+  .meteo-bombero { grid-template-columns: repeat(2, 1fr); }
+}

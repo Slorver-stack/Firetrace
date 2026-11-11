@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FireTrace · Monitor de Incendios Bolivia | NASA Space Apps 2026</title>
+  
+  <!-- Google Fonts: Inter + Syne -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Phosphor Icons (Local + CDN Fallback) -->
+  <link rel="stylesheet" href="/css/vendor/phosphor/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  
+  <!-- Leaflet CSS (mapas) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Bootstrap 5 (necesario para paneles de roles) -->
+  <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+  <!-- FireTrace Bootstrap Theme Overrides -->
+  <link rel="stylesheet" href="/css/bootstrap-ft-overrides.css">
+
+  <!-- CSS del proyecto -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/sidebar.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/ash-effect.css">
+  <link rel="stylesheet" href="/css/mapa.css">
+  <!-- CSS de roles específicos -->
+  <link rel="stylesheet" href="/css/roles/admin.css">
+  <link rel="stylesheet" href="/css/roles/bombero.css">
+  <link rel="stylesheet" href="/css/roles/ambulancia.css">
+  <link rel="stylesheet" href="/css/ojos-del-bosque.css">
+</head>
+<body class="ft-dark">
+  
+  <!-- FONDO DINÁMICO DE PÁGINA (Imágenes de FONDO PAGINA con crossfade por sección) -->
+  <div class="page-bg-layer" id="pageBg">
+    <div class="page-bg-img active" id="pageBgA" style="background-image: url('/IMG/FONDO%20PAGINA/Paisaje%20monta%C3%B1oso%20al%20amanecer.png');"></div>
+    <div class="page-bg-img" id="pageBgB"></div>
+    <div class="page-bg-overlay"></div>
+    <div class="page-bg-vignette"></div>
+  </div>
+  
+  <!-- PARTÍCULAS / CHISPAS DE FONDO (GSAP / CSS animation) -->
+  <div class="sparks-container" id="sparksContainer"></div>
+  
+  <!-- SIDEBAR IZQUIERDA -->
+  <aside class="ft-sidebar" id="sidebar">
+    <!-- Capa de imagen de fondo que cambia con crossfade suave -->
+    <div class="sidebar-bg-layer" id="sidebarBg">
+      <div class="sidebar-bg-img active" id="sidebarBgA" style="background-image: url('/IMG/BARRA%20LATERAL/Paisaje%20sereno%20de%20monta%C3%B1as%20y%20bosque%20(BARRA%20LATERAL).png'); background-size: 100% 100%; background-position: center top;"></div>
+      <div class="sidebar-bg-img" id="sidebarBgB"></div>
+    </div>
+    <div class="sidebar-overlay"></div>
+    
+    <!-- Logo FireTrace -->
+    <div class="sidebar-logo">
+      <img src="/IMG/LogoFireTrace.png" alt="FireTrace Logo" class="sidebar-logo-img">
+      <div class="sidebar-logo-text">
+        <span class="sidebar-brand">FireTrace</span>
+        <span class="sidebar-subbrand">NASA Space Apps 2026</span>
+      </div>
+    </div>
+    
+    <!-- Botón Toggle de Colapso -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Colapsar menú">
+      <i class="ph ph-caret-left"></i>
+    </button>
+    
+    <!-- Navegación de Secciones (8 items con data-route y data-bg-img) -->
+    <nav class="sidebar-nav">
+      <ul class="sidebar-menu">
+        <!-- 1. Inicio -->
+        <li class="sidebar-item active" data-tooltip="Inicio">
+          <a class="sidebar-link" data-route="inicio" data-bg-img="/IMG/BARRA%20LATERAL/Paisaje%20sereno%20de%20monta%C3%B1as%20y%20bosque%20(BARRA%20LATERAL).png">
+            <span class="sidebar-icon"><i class="ph ph-house"></i></span>
+            <span class="sidebar-label">Inicio</span>
+          </a>
+        </li>
+        
+        <!-- 2. Mapa de Incendios -->
+        <li class="sidebar-item" data-tooltip="Mapa de Incendios">
+          <a class="sidebar-link" data-route="mapa-incendios" data-bg-img="/IMG/BARRA%20LATERAL/Bosque%20Incendio%20(BARRA%20LATERAL).jfif">
+            <span class="sidebar-icon"><i class="ph ph-map-trifold"></i></span>
+            <span class="sidebar-label">Mapa de Incendios</span>
+          </a>
+        </li>
+        
+        <!-- 3. Incendio en Vivo (con indicador de alerta pulsante) -->
+        <li class="sidebar-item" data-tooltip="Incendio en Vivo">
+          <a class="sidebar-link" data-route="incendio-vivo" data-bg-img="/IMG/BARRA%20LATERAL/Atardecer%20entre%20monta%C3%B1as%20y%20brasas%20(BARRA%20LATERAL).png">
+            <span class="sidebar-icon"><i class="ph ph-flame"></i></span>
+            <span class="sidebar-label">Incendio en Vivo</span>
+            <span class="sidebar-live-dot" title="Monitoreo Activo"></span>
+          </a>
+        </li>
+        
+        <!-- 4. Memoria del Fuego -->
+        <li class="sidebar-item" data-tooltip="Memoria del Fuego">
+          <a class="sidebar-link" data-route="memoria-fuego" data-bg-img="/IMG/BARRA%20LATERAL/Bosque%20Verde%20(BARRA%20LATERAL).jfif">
+            <span class="sidebar-icon"><i class="ph ph-clock-counter-clockwise"></i></span>
+            <span class="sidebar-label">Memoria del Fuego</span>
+          </a>
+        </li>
+        
+        <!-- 5. Semáforo de Atención -->
+        <li class="sidebar-item" data-tooltip="Semáforo de Atención">
+          <a class="sidebar-link" data-route="semaforo-atencion" data-bg-img="/IMG/BARRA%20LATERAL/imagen%20de%20bosque%20(BARRA%20LATERAL).jfif">
+            <span class="sidebar-icon"><i class="ph ph-traffic-signal"></i></span>
+            <span class="sidebar-label">Semáforo de Atención</span>
+          </a>
+        </li>
+        
+        <!-- 6. Ojos del Bosque -->
+        <li class="sidebar-item" data-tooltip="Ojos del Bosque">
+          <a class="sidebar-link" data-route="ojos-del-bosque" data-bg-img="/IMG/BARRA%20LATERAL/Bosque%20Verde%20bonito%20(BARRA%20LATERAL).jfif">
+            <span class="sidebar-icon"><i class="ph ph-binoculars"></i></span>
+            <span class="sidebar-label">Ojos del Bosque</span>
+          </a>
+        </li>
+        
+        <!-- 7. FireTrace Explica -->
+        <li class="sidebar-item" data-tooltip="FireTrace Explica">
+          <a class="sidebar-link" data-route="firetrace-explica" data-bg-img="/IMG/BARRA%20LATERAL/Bosque%20Verde%20(BARRA%20LATERAL).jfif">
+            <span class="sidebar-icon"><i class="ph ph-lightbulb"></i></span>
+            <span class="sidebar-label">FireTrace Explica</span>
+          </a>
+        </li>
+        
+        <!-- 8. Bitácora del Bosque -->
+        <li class="sidebar-item" data-tooltip="Bitácora del Bosque">
+          <a class="sidebar-link" data-route="bitacora-bosque" data-bg-img="/IMG/BARRA%20LATERAL/Monta%C3%B1as%20al%20atardecer_%20proteger%20lo%20que%20importa%20(BARRA%20LATERAL).png">
+            <span class="sidebar-icon"><i class="ph ph-notebook"></i></span>
+            <span class="sidebar-label">Bitácora del Bosque</span>
+          </a>
+        </li>
+
+        <!-- 9. Panel Administrador (exclusivo admin) -->
+        <li class="sidebar-item item-role-admin" data-tooltip="Panel Administrador" style="display:none;">
+          <a class="sidebar-link" data-route="admin" data-bg-img="/IMG/BARRA%20LATERAL/Monta%C3%B1as%20al%20atardecer_%20proteger%20lo%20que%20importa%20(BARRA%20LATERAL).png">
+            <span class="sidebar-icon"><i class="ph ph-shield-check"></i></span>
+            <span class="sidebar-label">Panel Administrador</span>
+          </a>
+        </li>
+
+        <!-- 10. Rol Bomberos -->
+        <li class="sidebar-item item-role-bombero" data-tooltip="Panel Bomberos" style="display:none;">
+          <a class="sidebar-link" data-route="rol/bombero" data-bg-img="/IMG/BARRA%20LATERAL/Bosque%20Incendio%20(BARRA%20LATERAL).jfif">
+            <span class="sidebar-icon"><i class="ph ph-fire-extinguisher"></i></span>
+            <span class="sidebar-label">Panel Bomberos</span>
+          </a>
+        </li>
+
+        <!-- 11. Rol Ambulancia -->
+        <li class="sidebar-item item-role-ambulancia" data-tooltip="Panel Ambulancia" style="display:none;">
+          <a class="sidebar-link" data-route="rol/ambulancia" data-bg-img="/IMG/BARRA%20LATERAL/Atardecer%20entre%20monta%C3%B1as%20y%20brasas%20(BARRA%20LATERAL).png">
+            <span class="sidebar-icon"><i class="ph ph-first-aid"></i></span>
+            <span class="sidebar-label">Panel Ambulancia</span>
+          </a>
+        </li>
+
+        <!-- 12. Rol Rescatista -->
+        <li class="sidebar-item item-role-rescatista" data-tooltip="Panel Rescatista" style="display:none;">
+          <a class="sidebar-link" data-route="rol/rescatista" data-bg-img="/IMG/BARRA%20LATERAL/Bosque%20Verde%20bonito%20(BARRA%20LATERAL).jfif">
+            <span class="sidebar-icon"><i class="ph ph-paw-print"></i></span>
+            <span class="sidebar-label">Panel Rescatista</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <!-- Cita Inspiracional Dinámica -->
+    <div class="sidebar-quote">
+      <p class="quote-text" id="sidebarQuote">"Cada minuto cuenta. La prevención también es una forma de actuar."</p>
+      <i class="ph ph-leaf sidebar-leaf"></i>
+    </div>
+  </aside>
+  
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="ft-main" id="ftMain">
+    
+    <!-- HEADER SUPERIOR STICKY -->
+    <header class="ft-header" id="ftHeader">
+      <!-- Título y subtítulo de la sección actual -->
+      <div class="header-title-area">
+        <h1 class="header-title" id="pageTitle">Monitor de Incendios</h1>
+        <p class="header-subtitle" id="pageSubtitle">Vista general del sistema satelital en Bolivia</p>
+      </div>
+      
+      <!-- ALERTA BANNER EN VIVO (Pulsante rojo si hay incendio crítico) -->
+      <div class="header-alert-banner" id="alertBanner" style="display:none">
+        <div class="alert-pulse-dot"></div>
+        <span class="alert-banner-text"><i class="ph ph-warning-circle"></i> ALERTA EN VIVO</span>
+        <span class="alert-banner-location" id="alertBannerLocation">Parque Tunari · Incendio Activo</span>
+      </div>
+      
+      <!-- Header derecha: notificaciones + usuario -->
+      <div class="header-right">
+        <!-- Botón para alternar panel lateral derecho -->
+        <button class="header-action-btn" id="headerToggleRightPanel" aria-label="Mostrar u ocultar panel táctico derecho" title="Mostrar u ocultar panel táctico derecho">
+          <i class="ph ph-sidebar-simple"></i>
+        </button>
+
+        <!-- Botón de Notificaciones -->
+        <button class="header-notif-btn" id="notifBtn" aria-label="Notificaciones del sistema">
+          <i class="ph ph-bell"></i>
+          <span class="notif-badge" id="notifBadge">0</span>
+        </button>
+        
+        <!-- Usuario y Rol -->
+        <div class="header-user" id="headerUser">
+          <i class="ph ph-user-circle"></i>
+          <span id="headerUserName">Usuario</span>
+          <span class="header-user-role-badge" id="headerUserRole">Ciudadano</span>
+          <i class="ph ph-caret-down"></i>
+          
+          <!-- Dropdown de Usuario -->
+          <div class="user-dropdown-menu" id="userDropdown" style="display:none">
+            <a href="#perfil" id="userProfileLink"><i class="ph ph-user"></i> Mi Perfil</a>
+            <a href="#rol" id="userRoleLink"><i class="ph ph-shield-check"></i> Panel de Rol</a>
+            <button class="logout-item" id="logoutBtn"><i class="ph ph-sign-out"></i> Cerrar Sesión</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Panel de notificaciones desplegable -->
+      <div class="notif-panel" id="notifPanel" style="display:none">
+        <div class="notif-header">
+          <span class="notif-title">Alertas y Notificaciones</span>
+          <button class="btn btn-ghost" id="clearNotifsBtn" style="font-size:0.75rem; padding: 0.2rem 0.5rem;">Cerrar</button>
+        </div>
+        <div class="notif-list" id="notifList">
+          <div style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+            No hay alertas pendientes en este momento.
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <!-- ROUTER CONTENT AREA - Vistas inyectadas dinámicamente -->
+    <main class="ft-content" id="ftContent">
+      <div class="loading-skeleton" id="contentLoader">
+        <div class="skeleton-line" style="width: 35%;"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-line" style="width: 65%;"></div>
+      </div>
+    </main>
+    
+  </div>
+  
+  <!-- BOTÓN FLOTANTE DESLIZABLE PARA EL PANEL DERECHO -->
+  <button class="right-panel-toggle" id="rightPanelToggle" aria-label="Mostrar u ocultar panel lateral derecho" title="Mostrar u ocultar panel lateral derecho">
+    <i class="ph ph-caret-right" id="rightPanelToggleIcon"></i>
+  </button>
+
+  <!-- PANEL DERECHO FIJO (Alertas, Condiciones, Acciones rápidas) -->
+  <aside class="ft-right-panel" id="rightPanel">
+    <!-- Se rellena dinámicamente según la sección activa -->
+  </aside>
+  
+  <!-- MODAL GENÉRICO -->
+  <div class="ft-modal-overlay" id="modalOverlay" style="display:none">
+    <div class="ft-modal" id="modalContainer">
+      <button class="modal-close" id="modalClose"><i class="ph ph-x"></i></button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+  
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+  
+  <!-- SCRIPTS -->
+  <!-- Leaflet JS + Leaflet Heat Plugin -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <!-- Bootstrap 5 JS (para modales, dropdowns, tooltips) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Supabase cliente -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <!-- GSAP para animaciones fluidas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+  
+  <!-- Core JS del proyecto FireTrace -->
+  <script src="/js/core/supabase.js"></script>
+  <script src="/js/core/mapHelper.js"></script>
+  <script src="/js/core/auth.js"></script>
+  <script src="/js/effects/ashEffect.js"></script>
+  <script src="/js/effects/transitions.js"></script>
+  <script src="/js/core/pageBg.js"></script>
+  <script src="/js/core/sidebar.js"></script>
+  <script src="/js/core/app.js"></script>
+
+  <!-- Páginas del SPA (cada una se auto-registra con App.register) -->
+  <script src="/js/pages/inicio.js"></script>
+  <script src="/js/pages/mapaIncendios.js"></script>
+  <script src="/js/pages/incendioVivo.js"></script>
+  <script src="/js/pages/memoriaFuego.js"></script>
+  <script src="/js/pages/vigilanciaReactivacion.js"></script>
+  <script src="/js/pages/bitacora.js"></script>
+  <script src="/js/pages/semaforoAtencion.js"></script>
+  <script src="/js/pages/ojosDelBosque.js"></script>
+  <script src="/js/pages/firetracExplica.js"></script>
+
+  <!-- Paneles de rol (se auto-registran con App.register) -->
+  <script src="/js/roles/admin.js"></script>
+  <script src="/js/roles/bombero.js"></script>
+  <script src="/js/roles/ambulancia.js"></script>
+  <script src="/js/roles/rescatista.js"></script>
+</body>
+</html>

@@ -1,0 +1,452 @@
+/* ============================================================
+   FIRETRACE — CSS ADMINISTRADOR
+   Panel de control total del sistema
+   ============================================================ */
+
+/* ── Panel admin ── */
+.admin-panel {
+  padding: 1.2rem;
+  animation: fadeInPanel 0.5s ease;
+}
+
+/* ── Tabs de navegación admin ── */
+.admin-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(220,80,30,0.2);
+  overflow-x: auto;
+  padding-bottom: 0.1rem;
+}
+
+.admin-tab {
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px 8px 0 0;
+  border: 1px solid transparent;
+  border-bottom: none;
+  background: transparent;
+  color: #a08060;
+  font-size: 0.82rem;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s;
+}
+
+.admin-tab:hover {
+  color: #f0c880;
+  background: rgba(220,80,30,0.08);
+}
+
+.admin-tab.activo,
+.admin-tab.active {
+  color: #f0c880;
+  background: rgba(220,80,30,0.12);
+  border-color: rgba(220,80,30,0.3);
+  border-bottom-color: transparent;
+}
+
+/* ── Stats del admin ── */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.admin-stat-card {
+  background: rgba(15,5,2,0.7);
+  border: 1px solid rgba(220,80,30,0.2);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(220,80,30,0.15);
+}
+
+.admin-stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.admin-stat-icon.fuego   { background: rgba(220,80,30,0.2); color: #f07030; }
+.admin-stat-icon.usuario { background: rgba(40,140,220,0.2); color: #4090e0; }
+.admin-stat-icon.alerta  { background: rgba(240,190,20,0.2); color: #f0c040; }
+.admin-stat-icon.zona    { background: rgba(50,180,80,0.2); color: #50c070; }
+
+.admin-stat-num   { font-size: 1.6rem; font-weight: 800; color: #f5d5b0; line-height: 1; }
+.admin-stat-label { font-size: 0.7rem; color: #a08060; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ── Tabla de admin ── */
+.admin-table-container {
+  background: rgba(10,4,1,0.7);
+  border: 1px solid rgba(220,80,30,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid rgba(220,80,30,0.15);
+  background: rgba(15,5,2,0.5);
+}
+
+.admin-table-header h3 {
+  font-size: 0.9rem;
+  color: #f0c880;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-search {
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid rgba(220,80,30,0.25);
+  background: rgba(5,2,0,0.8);
+  color: #f0d5b0;
+  font-size: 0.8rem;
+  transition: border-color 0.2s;
+}
+
+.admin-search:focus {
+  outline: none;
+  border-color: rgba(220,80,30,0.5);
+}
+
+.admin-search::placeholder { color: #605040; }
+
+/* ── Botón agregar ── */
+.btn-agregar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid rgba(220,80,30,0.4);
+  background: linear-gradient(135deg, rgba(220,80,30,0.2), rgba(180,40,10,0.3));
+  color: #f0c880;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-agregar:hover {
+  background: linear-gradient(135deg, rgba(220,80,30,0.35), rgba(180,40,10,0.5));
+  box-shadow: 0 3px 12px rgba(220,80,30,0.3);
+}
+
+/* ── Tabla ── */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.admin-table th {
+  padding: 0.65rem 1rem;
+  text-align: left;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #806040;
+  border-bottom: 1px solid rgba(220,80,30,0.12);
+  background: rgba(10,4,1,0.5);
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(220,80,30,0.07);
+  color: #c0a080;
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td { border-bottom: none; }
+
+.admin-table tbody tr {
+  transition: background 0.15s;
+}
+
+.admin-table tbody tr:hover {
+  background: rgba(220,80,30,0.06);
+}
+
+/* ── Acciones de tabla ── */
+.table-actions {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.btn-edit, .btn-del, .btn-view {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-edit  { background: rgba(40,140,220,0.15); color: #4090d0; border-color: rgba(40,140,220,0.2); }
+.btn-del   { background: rgba(220,40,40,0.15);  color: #e05050; border-color: rgba(220,40,40,0.2); }
+.btn-view  { background: rgba(240,190,20,0.15); color: #e0a020; border-color: rgba(240,190,20,0.2); }
+
+.btn-edit:hover  { background: rgba(40,140,220,0.3);  box-shadow: 0 2px 8px rgba(40,140,220,0.2); }
+.btn-del:hover   { background: rgba(220,40,40,0.3);   box-shadow: 0 2px 8px rgba(220,40,40,0.2); }
+.btn-view:hover  { background: rgba(240,190,20,0.3);  box-shadow: 0 2px 8px rgba(240,190,20,0.2); }
+
+/* ── Rol badge en tabla ── */
+.rol-badge {
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.rol-administrador { background: rgba(220,80,30,0.2); color: #f07030; border: 1px solid rgba(220,80,30,0.3); }
+.rol-bombero       { background: rgba(240,190,20,0.2); color: #f5c040; border: 1px solid rgba(240,190,20,0.3); }
+.rol-voluntario    { background: rgba(50,180,80,0.2);  color: #50d070; border: 1px solid rgba(50,180,80,0.3); }
+.rol-ciudadano     { background: rgba(40,140,220,0.2); color: #4090d0; border: 1px solid rgba(40,140,220,0.3); }
+
+/* ── Modal de admin ── */
+.admin-form-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group label {
+  font-size: 0.75rem;
+  color: #906040;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid rgba(220,80,30,0.25);
+  background: rgba(5,2,0,0.8);
+  color: #f0d5b0;
+  font-size: 0.85rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: rgba(220,80,30,0.5);
+}
+
+/* ── Indicador activo ── */
+.activo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.4rem;
+}
+
+.activo-dot.activo   { background: #40c060; box-shadow: 0 0 6px rgba(64,192,96,0.5); }
+.activo-dot.inactivo { background: #808080; }
+
+/* ── Paginación ── */
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  padding: 0.7rem 1rem;
+  border-top: 1px solid rgba(220,80,30,0.1);
+}
+
+.page-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid rgba(220,80,30,0.2);
+  background: transparent;
+  color: #a08060;
+  font-size: 0.78rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.page-btn.activo {
+  background: rgba(220,80,30,0.25);
+  border-color: rgba(220,80,30,0.4);
+  color: #f0c880;
+}
+
+.page-btn:hover:not(.activo) {
+  background: rgba(220,80,30,0.1);
+  color: #f0c880;
+}
+
+/* ── Responsivo ── */
+@media (max-width: 768px) {
+  .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .admin-form-row { grid-template-columns: 1fr; }
+  .admin-tabs { gap: 0.2rem; }
+}
+
+/* ================================================================
+   CLASES ADICIONALES DEL PANEL ADMIN
+   ================================================================ */
+
+/* Contenedor raíz del panel */
+.admin-shell {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Área de contenido de las tabs */
+.admin-content {
+  padding: 0.4rem 0;
+  min-height: 340px;
+}
+
+/* Animación por tab */
+.admin-dashboard,
+.admin-usuarios,
+.admin-incendios,
+.admin-alertas,
+.admin-reportes,
+.admin-voluntariado {
+  animation: fadeInPanel 0.35s ease;
+}
+
+/* Título de sección con icono */
+.admin-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f0c880;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(220,80,30,0.15);
+}
+
+/* Botones rápidos de acceso del panel derecho */
+.admin-quick-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(220,80,30,0.28);
+  background: rgba(220,80,30,0.09);
+  color: #f0c880;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 0.4rem;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.admin-quick-btn:hover {
+  background: rgba(220,80,30,0.22);
+  border-color: rgba(220,80,30,0.5);
+  transform: translateX(3px);
+  box-shadow: 0 3px 12px rgba(220,80,30,0.15);
+}
+
+.admin-quick-btn i,
+.admin-quick-btn .ph {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Card del panel derecho */
+.rp-card {
+  background: rgba(15,5,2,0.72);
+  border: 1px solid rgba(220,80,30,0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Encabezado del card del panel derecho */
+.rp-card-header {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f0c880;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(220,80,30,0.12);
+}
+
+.rp-card-header i,
+.rp-card-header .ph {
+  font-size: 1.05rem;
+  color: #f07030;
+}
+
+/* Contenedor de links del panel derecho */
+.rp-admin-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* Layout de dos columnas: contenido principal + panel info derecho */
+.admin-two-col {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.2rem;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .admin-two-col {
+    grid-template-columns: 1fr;
+  }
+}

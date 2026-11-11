@@ -1,0 +1,600 @@
+/* ============================================================
+   FIRETRACE — PORTAL OJOS DEL BOSQUE (RED DE VIGILANCIA)
+   Temática bosque profundo (Dark Emerald & Amber Fire)
+   ============================================================ */
+
+.ojos-bosque-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0.5rem 0 2rem;
+  color: #d1fae5;
+  animation: fadeInOjos 0.4s ease-out;
+}
+
+@keyframes fadeInOjos {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Hero Banner Bosque ── */
+.ojos-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  padding: 1.8rem 2rem;
+  background: linear-gradient(135deg, rgba(8, 28, 19, 0.95) 0%, rgba(13, 43, 29, 0.88) 50%, rgba(20, 64, 42, 0.92) 100%);
+  border: 1px solid rgba(46, 204, 113, 0.28);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.ojos-hero-content {
+  max-width: 680px;
+  position: relative;
+  z-index: 2;
+}
+
+.ojos-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(46, 204, 113, 0.15);
+  border: 1px solid rgba(46, 204, 113, 0.35);
+  color: #4ade80;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  margin-bottom: 0.75rem;
+}
+
+.ojos-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ojos-title i {
+  color: #2ecc71;
+  font-size: 2rem;
+}
+
+.ojos-subtitle {
+  font-size: 0.92rem;
+  color: #a7f3d0;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.ojos-hero-stats {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.ojos-stat-chip {
+  background: rgba(5, 18, 12, 0.7);
+  border: 1px solid rgba(46, 204, 113, 0.2);
+  border-radius: 12px;
+  padding: 0.75rem 1.1rem;
+  text-align: center;
+  min-width: 120px;
+}
+
+.ojos-stat-chip .chip-num {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #4ade80;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.ojos-stat-chip .chip-label {
+  font-size: 0.7rem;
+  color: #86efac;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Flujo Vertical: Mapa Completo Expandido Arriba + Evidencias Abajo ── */
+.ojos-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* ── Tarjetas Estilo Bosque ── */
+.ojos-card {
+  background: rgba(10, 26, 18, 0.85);
+  border: 1px solid rgba(46, 204, 113, 0.22);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ojos-card-header {
+  padding: 1.1rem 1.4rem;
+  background: rgba(15, 38, 26, 0.9);
+  border-bottom: 1px solid rgba(46, 204, 113, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.ojos-card-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #e6fffa;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.ojos-card-title i {
+  font-size: 1.25rem;
+  color: #4ade80;
+}
+
+.ojos-card-body {
+  padding: 1.4rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* ── Mapa y Controles ── */
+.ojos-map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 620px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.6);
+}
+
+#mapaOjosBosque {
+  width: 100%;
+  height: 100%;
+  background: #06150e;
+}
+
+/* ── Marcador de Posición Actual del Usuario (Azul Radar) ── */
+.user-location-marker-container {
+  background: transparent !important;
+  border: none !important;
+}
+
+.user-position-marker {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-position-radar {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(14, 165, 233, 0.45);
+  animation: radarPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.user-position-core {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7, #38bdf8);
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.9), 0 2px 8px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 11px;
+  z-index: 2;
+}
+
+@keyframes radarPing {
+  0% { transform: scale(0.6); opacity: 1; }
+  70% { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Badge flotante en el mapa para estado del GPS en tiempo real */
+.ojos-live-gps-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 999;
+  background: rgba(8, 24, 16, 0.90);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 20px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.78rem;
+  color: #bae6fd;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.user-radar-pulse {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+  animation: pulseBlueDot 1.5s infinite;
+}
+
+@keyframes pulseBlueDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.4; }
+}
+
+/* Layout de 2 columnas para el formulario horizontalizado */
+.form-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .form-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ojos-map-overlay-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.btn-map-control {
+  background: rgba(8, 24, 16, 0.92);
+  border: 1px solid rgba(46, 204, 113, 0.4);
+  color: #a7f3d0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(6px);
+}
+
+.btn-map-control:hover {
+  background: rgba(18, 54, 36, 0.95);
+  color: #ffffff;
+  border-color: #2ecc71;
+  transform: translateY(-2px);
+}
+
+.btn-map-control.active {
+  background: #2ecc71;
+  color: #062013;
+  border-color: #2ecc71;
+  font-weight: 700;
+}
+
+.ojos-coords-bar {
+  background: rgba(6, 20, 14, 0.9);
+  border: 1px solid rgba(46, 204, 113, 0.2);
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+}
+
+.ojos-coords-label {
+  color: #86efac;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ojos-coords-val {
+  font-family: monospace;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(46, 204, 113, 0.15);
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+}
+
+/* ── Sector de Subida de Evidencias / Formulario ── */
+.form-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.form-field-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #a7f3d0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.form-field-input,
+.form-field-textarea,
+.form-field-select {
+  background: rgba(5, 18, 12, 0.9) !important;
+  border: 1px solid rgba(46, 204, 113, 0.28) !important;
+  color: #e6fffa !important;
+  border-radius: 10px !important;
+  padding: 0.65rem 0.95rem;
+  font-size: 0.86rem;
+  transition: all 0.2s;
+}
+
+.form-field-input:focus,
+.form-field-textarea:focus,
+.form-field-select:focus {
+  outline: none;
+  border-color: #2ecc71 !important;
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.18) !important;
+}
+
+/* ── Selector de Severidad con Botones ── */
+.severity-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .severity-selector-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.severity-pill-btn {
+  background: rgba(8, 26, 17, 0.8);
+  border: 1px solid rgba(46, 204, 113, 0.25);
+  border-radius: 10px;
+  padding: 0.65rem 0.5rem;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+  color: #a7f3d0;
+}
+
+.severity-pill-btn i {
+  font-size: 1.3rem;
+}
+
+.severity-pill-btn span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.severity-pill-btn:hover {
+  background: rgba(18, 54, 36, 0.9);
+  border-color: rgba(46, 204, 113, 0.5);
+  transform: translateY(-2px);
+}
+
+.severity-pill-btn.selected {
+  background: linear-gradient(135deg, rgba(220, 80, 30, 0.3), rgba(180, 40, 10, 0.5));
+  border-color: #ff6530;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(220, 80, 30, 0.3);
+}
+
+.severity-pill-btn.selected i {
+  color: #ff6530;
+}
+
+/* ── Dropzone de Carga de Imágenes ── */
+.dropzone-container {
+  border: 2px dashed rgba(46, 204, 113, 0.4);
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  background: rgba(5, 18, 12, 0.65);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.dropzone-container:hover,
+.dropzone-container.dragover {
+  border-color: #2ecc71;
+  background: rgba(10, 35, 23, 0.8);
+  box-shadow: 0 0 20px rgba(46, 204, 113, 0.2);
+}
+
+.dropzone-icon {
+  font-size: 2.4rem;
+  color: #2ecc71;
+  margin-bottom: 0.4rem;
+  display: block;
+  animation: pulseDropzone 2s infinite ease-in-out;
+}
+
+@keyframes pulseDropzone {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.dropzone-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #e6fffa;
+  margin-bottom: 0.2rem;
+}
+
+.dropzone-sub {
+  font-size: 0.74rem;
+  color: #86efac;
+}
+
+/* ── Galería de Previsualización de Imágenes ── */
+.evidence-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.evidence-preview-item {
+  position: relative;
+  width: 100%;
+  height: 85px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(46, 204, 113, 0.4);
+  background: #000;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.evidence-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.btn-remove-evidence {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(220, 40, 40, 0.9);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+
+.btn-remove-evidence:hover {
+  background: #ff2020;
+  transform: scale(1.15);
+}
+
+/* ── Botón de Enviar a Bomberos ── */
+.btn-bosque-submit {
+  width: 100%;
+  padding: 0.9rem 1.4rem;
+  border-radius: 12px;
+  border: 1px solid rgba(46, 204, 113, 0.5);
+  background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+  color: #ffffff;
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+  transition: all 0.25s ease;
+  margin-top: 0.5rem;
+}
+
+.btn-bosque-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
+  box-shadow: 0 8px 28px rgba(16, 185, 129, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-bosque-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Banner de Confirmación Táctica ── */
+.ojos-success-banner {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  animation: slideDownSuccess 0.3s ease-out;
+}
+
+@keyframes slideDownSuccess {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ojos-success-icon {
+  font-size: 1.6rem;
+  color: #34d399;
+  flex-shrink: 0;
+}
+
+.ojos-success-text h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.2rem 0;
+}
+
+.ojos-success-text p {
+  font-size: 0.8rem;
+  color: #a7f3d0;
+  margin: 0;
+  line-height: 1.4;
+}

@@ -1,0 +1,673 @@
+/* ==========================================================================
+   FIRETRACE - PANTALLA DE LOGIN
+   NASA Space Apps Challenge 2026
+   Archivo: public/css/login.css
+   ========================================================================== */
+
+/* ── 1. CONTENEDOR PRINCIPAL Y LAYOUT ────────────────────────────────────── */
+.login-page {
+  min-height: 100vh;
+  width: 100vw;
+  background-color: var(--color-bg-deep);
+  display: flex;
+  position: relative;
+  overflow-x: hidden;
+  color: var(--color-text-primary);
+}
+
+.login-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── 2. COLUMNA IZQUIERDA: SLIDESHOW DE IMÁGENES ─────────────────────────── */
+.login-showcase {
+  flex: 1.15;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3.5rem;
+  background-color: #050302;
+}
+
+/* Contenedor de slides */
+.showcase-slides {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.showcase-slide {
+  position: absolute;
+  inset: -15px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.showcase-slide.active {
+  opacity: 1;
+  animation: kenBurns 12s ease-in-out alternate infinite;
+}
+
+/* Ken Burns: zoom lento ultra suave */
+@keyframes kenBurns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate(-1%, -1%);
+  }
+  100% {
+    transform: scale(1.15) translate(1%, 0);
+  }
+}
+
+/* Overlays oscuros y gradientes de fuego */
+.showcase-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 8, 4, 0.45) 0%,
+    rgba(16, 10, 5, 0.65) 50%,
+    rgba(10, 8, 4, 0.95) 100%
+  );
+  z-index: 2;
+}
+
+.showcase-vignette {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 100px rgba(5, 3, 2, 0.85);
+  z-index: 3;
+}
+
+/* Partículas de chispas flotando */
+.sparks-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--color-fire-secondary);
+  border-radius: 50%;
+  filter: blur(1px) drop-shadow(0 0 6px var(--color-fire-glow));
+  opacity: 0;
+  animation: sparkFloat 8s infinite linear;
+}
+
+.spark:nth-child(1) { left: 15%; bottom: -10px; animation-duration: 7s; animation-delay: 0.5s; width: 3px; height: 3px; }
+.spark:nth-child(2) { left: 35%; bottom: -10px; animation-duration: 9s; animation-delay: 1.8s; width: 5px; height: 5px; background: #ffaa5a; }
+.spark:nth-child(3) { left: 60%; bottom: -10px; animation-duration: 6.5s; animation-delay: 3s; width: 4px; height: 4px; }
+.spark:nth-child(4) { left: 80%; bottom: -10px; animation-duration: 11s; animation-delay: 2.2s; width: 3px; height: 3px; }
+.spark:nth-child(5) { left: 25%; bottom: -10px; animation-duration: 8.5s; animation-delay: 4.5s; width: 6px; height: 6px; background: #ff471a; }
+.spark:nth-child(6) { left: 70%; bottom: -10px; animation-duration: 10s; animation-delay: 5.5s; width: 4px; height: 4px; }
+
+@keyframes sparkFloat {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+    transform: translateY(-20vh) translateX(15px) scale(1);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(-60vh) translateX(-20px) scale(0.9);
+  }
+  90% {
+    opacity: 0.3;
+    transform: translateY(-90vh) translateX(25px) scale(0.7);
+  }
+  100% {
+    transform: translateY(-105vh) translateX(30px) scale(0.4);
+    opacity: 0;
+  }
+}
+
+/* Contenido sobre el showcase */
+.showcase-content-top {
+  position: relative;
+  z-index: 5;
+}
+
+.showcase-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  background: rgba(26, 16, 9, 0.75);
+  border: 1px solid rgba(232, 99, 42, 0.4);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-fire-secondary);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.showcase-tag i {
+  color: var(--color-fire-glow);
+  font-size: 0.95rem;
+}
+
+.showcase-content-bottom {
+  position: relative;
+  z-index: 5;
+  max-width: 620px;
+}
+
+.showcase-quote {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+  letter-spacing: -0.015em;
+}
+
+.showcase-quote span {
+  background: linear-gradient(90deg, var(--color-fire-secondary), var(--color-fire-glow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.showcase-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+}
+
+.showcase-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(18, 12, 7, 0.75);
+  border: 1px solid rgba(255, 140, 66, 0.22);
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+  backdrop-filter: blur(6px);
+}
+
+.showcase-pill i {
+  color: var(--color-fire-primary);
+}
+
+/* Dots indicadores del slideshow */
+.slideshow-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.dot {
+  width: 32px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border: none;
+  padding: 0;
+}
+
+.dot.active {
+  width: 54px;
+  background: var(--color-fire-primary);
+  box-shadow: 0 0 10px var(--color-fire-glow);
+}
+
+/* ── 3. COLUMNA DERECHA: FORMULARIO GLASSMORPHIC ─────────────────────────── */
+.login-form-pane {
+  flex: 0.85;
+  min-width: 440px;
+  max-width: 580px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  position: relative;
+  background: rgba(16, 11, 7, 0.88);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-left: 1px solid rgba(232, 99, 42, 0.2);
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.65);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cabecera del formulario: Logo y Marca */
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-logo-wrapper {
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 1.1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-logo-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 99, 42, 0.45) 0%, transparent 70%);
+  filter: blur(12px);
+  animation: fireGlow 3s infinite ease-in-out;
+}
+
+.login-logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 12px rgba(255, 107, 53, 0.7));
+  transition: transform var(--transition-normal);
+}
+
+.login-logo-wrapper:hover .login-logo {
+  transform: scale(1.06) rotate(-3deg);
+}
+
+.login-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ffffff 0%, var(--color-fire-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.35rem;
+}
+
+.login-subtitle {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.login-nasa-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-fire-primary);
+  margin-top: 0.3rem;
+}
+
+/* ── 4. ALERTAS Y FEEDBACK ───────────────────────────────────────────────── */
+.login-alert {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-md);
+  background: rgba(192, 57, 43, 0.18);
+  border: 1px solid rgba(192, 57, 43, 0.6);
+  color: #ff9184;
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 14px rgba(192, 57, 43, 0.25);
+  animation: fadeIn 0.3s ease;
+}
+
+.login-alert.show {
+  display: flex;
+}
+
+.login-alert i {
+  font-size: 1.25rem;
+  color: #ff5e4a;
+  flex-shrink: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Shake de error */
+.shake {
+  animation: errorShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes errorShake {
+  10%, 90% { transform: translate3d(-3px, 0, 0); }
+  20%, 80% { transform: translate3d(5px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+  40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+/* ── 5. INPUTS CON ETIQUETAS FLOTANTES Y ÍCONOS ─────────────────────────── */
+.input-floating-group {
+  position: relative;
+  margin-bottom: 1.4rem;
+}
+
+.input-icon-left {
+  position: absolute;
+  left: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+  z-index: 2;
+}
+
+.floating-input {
+  width: 100%;
+  background: rgba(22, 14, 8, 0.85);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.15rem 1.1rem 0.65rem 3.1rem;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.floating-input:focus {
+  border-color: var(--color-fire-primary);
+  background: rgba(28, 17, 10, 0.95);
+  box-shadow: 0 0 0 3px rgba(232, 99, 42, 0.25), 0 0 16px rgba(232, 99, 42, 0.18);
+}
+
+.floating-input:focus ~ .input-icon-left {
+  color: var(--color-fire-secondary);
+}
+
+/* Etiqueta flotante */
+.floating-label {
+  position: absolute;
+  left: 3.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: left top;
+}
+
+.floating-input:focus ~ .floating-label,
+.floating-input:not(:placeholder-shown) ~ .floating-label {
+  transform: translateY(-115%) scale(0.82);
+  color: var(--color-fire-secondary);
+  font-weight: 600;
+}
+
+/* Botón mostrar / ocultar contraseña */
+.btn-toggle-password {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.35rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background var(--transition-fast);
+  z-index: 3;
+}
+
+.btn-toggle-password:hover {
+  color: var(--color-text-primary);
+  background: rgba(232, 99, 42, 0.12);
+}
+
+/* Fila de opciones: Recordar y enlaces */
+.form-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.6rem;
+  font-size: 0.85rem;
+}
+
+/* ── 6. BOTONES DE ACCIÓN (EFECTO LLAMA Y GHOST) ─────────────────────────── */
+.btn-login {
+  width: 100%;
+  padding: 0.95rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #0b0603;
+  background: linear-gradient(135deg, #e8632a 0%, #ff8c42 50%, #ffa768 100%);
+  border: 1px solid rgba(255, 140, 66, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  box-shadow: 0 4px 18px rgba(232, 99, 42, 0.45);
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de resplandor de llama al hover */
+.btn-login::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transition: left 0.65s ease;
+}
+
+.btn-login:hover {
+  background: linear-gradient(135deg, #ff7438 0%, #ffa566 50%, #ffc499 100%);
+  box-shadow: 0 6px 26px rgba(255, 107, 53, 0.7), 0 0 12px rgba(232, 99, 42, 0.5);
+  transform: translateY(-2px);
+  color: #000;
+}
+
+.btn-login:hover::before {
+  left: 100%;
+}
+
+.btn-login:active {
+  transform: translateY(0);
+}
+
+.btn-login .btn-spinner {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  border-top-color: #000000;
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+}
+
+.btn-login.loading .btn-spinner {
+  display: inline-block;
+}
+
+.btn-login.loading .btn-text,
+.btn-login.loading .btn-icon {
+  display: none;
+}
+
+/* Separador "o" */
+.login-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(232, 99, 42, 0.16);
+}
+
+.login-divider span {
+  padding: 0 0.85rem;
+}
+
+/* Botón Invitado */
+.btn-guest {
+  width: 100%;
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: rgba(26, 16, 9, 0.6);
+  border: 1px solid rgba(232, 99, 42, 0.25);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-guest:hover {
+  background: rgba(232, 99, 42, 0.12);
+  border-color: var(--color-fire-primary);
+  color: var(--color-fire-secondary);
+  box-shadow: 0 0 16px rgba(232, 99, 42, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Pie del login */
+.login-footer {
+  margin-top: 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(232, 99, 42, 0.12);
+  padding-top: 1.25rem;
+}
+
+.login-footer-text {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.login-footer-nasa {
+  font-size: 0.68rem;
+  color: var(--color-fire-primary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 0.25rem;
+}
+
+/* ── 7. RESPONSIVE DESIGN (TABLETS Y MÓVILES) ────────────────────────────── */
+@media (max-width: 980px) {
+  .login-layout {
+    flex-direction: column;
+  }
+
+  .login-showcase {
+    flex: none;
+    min-height: 380px;
+    padding: 2.2rem 1.5rem;
+  }
+
+  .showcase-quote {
+    font-size: 1.5rem;
+  }
+
+  .login-form-pane {
+    flex: 1;
+    min-width: 100%;
+    max-width: 100%;
+    padding: 2.5rem 1.5rem 3.5rem;
+    border-left: none;
+    border-top: 1px solid rgba(232, 99, 42, 0.2);
+  }
+}
+
+@media (max-width: 480px) {
+  .login-showcase {
+    min-height: 290px;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .showcase-quote {
+    font-size: 1.25rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .showcase-pills {
+    display: none;
+  }
+
+  .login-form-pane {
+    padding: 2rem 1.25rem;
+  }
+
+  .login-title {
+    font-size: 1.65rem;
+  }
+}

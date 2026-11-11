@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FireTrace - Sistema Integral de Monitoreo de Incendios Forestales para Bolivia. Desarrollado para NASA Space Apps Challenge 2026.">
+  <title>FireTrace · Monitoreo de Incendios Forestales | Iniciar Sesión</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/IMG/LogoFireTrace.png">
+
+  <!-- Google Fonts: Inter (UI) + Syne (Títulos) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons (Local + CDN Fallback) -->
+  <link rel="stylesheet" href="/css/vendor/phosphor/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+
+  <!-- Estilos del Sistema FireTrace -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/login.css">
+</head>
+<body class="login-page">
+
+  <div class="login-layout">
+
+    <!-- ── COLUMNA IZQUIERDA: SLIDESHOW DE PAISAJES E INCENDIOS ────────── -->
+    <section class="login-showcase" aria-label="Galería visual de monitoreo">
+      
+      <!-- Capas de imágenes del slideshow (intercaladas fuego / tranquilidad) -->
+      <div class="showcase-slides" id="showcaseSlides">
+        <!-- Slide 1: Bosque en llamas (Fuego activo) -->
+        <div class="showcase-slide active" 
+             style="background-image: url('/IMG/FONDO%20PAGINA/Bosque%20en%20llamas%20(PARA%20CUADROS%20PEQUE%C3%91OS).jfif');"
+             role="img" aria-label="Bosque en llamas en la Chiquitania"></div>
+
+        <!-- Slide 2: Paisaje montañoso al amanecer (Tranquilo) -->
+        <div class="showcase-slide" 
+             style="background-image: url('/IMG/FONDO%20PAGINA/Paisaje%20monta%C3%B1oso%20al%20amanecer.png');"
+             role="img" aria-label="Paisaje montañoso al amanecer en Bolivia"></div>
+
+        <!-- Slide 3: Cóndor sobre el incendio forestal (Fuego y biodiversidad) -->
+        <div class="showcase-slide" 
+             style="background-image: url('/IMG/FONDO%20PAGINA/C%C3%B3ndor%20sobre%20el%20incendio%20forestal.png');"
+             role="img" aria-label="Cóndor andino sobrevolando zona de incendio"></div>
+
+        <!-- Slide 4: Valle montañoso al atardecer (Tranquilo) -->
+        <div class="showcase-slide" 
+             style="background-image: url('/IMG/FONDO%20PAGINA/Valle%20monta%C3%B1oso%20al%20atardecer.png');"
+             role="img" aria-label="Valle montañoso sereno al atardecer"></div>
+
+        <!-- Slide 5: Incendio forestal reflejado en el río (Fuego nocturno) -->
+        <div class="showcase-slide" 
+             style="background-image: url('/IMG/FONDO%20PAGINA/Incendio%20forestal%20reflejado%20en%20el%20r%C3%ADo.png');"
+             role="img" aria-label="Reflejo del incendio forestal en el río"></div>
+      </div>
+
+      <!-- Overlays gradientes de atmósfera y viñeta -->
+      <div class="showcase-overlay"></div>
+      <div class="showcase-vignette"></div>
+
+      <!-- Chispas y partículas flotantes (CSS puro) -->
+      <div class="sparks-container" aria-hidden="true">
+        <span class="spark"></span>
+        <span class="spark"></span>
+        <span class="spark"></span>
+        <span class="spark"></span>
+        <span class="spark"></span>
+        <span class="spark"></span>
+      </div>
+
+      <!-- Contenido superior del Showcase -->
+      <div class="showcase-content-top">
+        <div class="showcase-tag">
+          <i class="ph ph-planet"></i>
+          <span>NASA Space Apps Challenge 2026</span>
+        </div>
+      </div>
+
+      <!-- Contenido inferior del Showcase -->
+      <div class="showcase-content-bottom">
+        <h2 class="showcase-quote">
+          "Cada segundo cuenta. <span>La prevención también es una forma de actuar.</span>"
+        </h2>
+
+        <div class="showcase-pills">
+          <div class="showcase-pill">
+            <i class="ph ph-planet"></i>
+            <span>Monitoreo Satelital FIRMS & VIIRS</span>
+          </div>
+          <div class="showcase-pill">
+            <i class="ph ph-flame"></i>
+            <span>Detección Térmica en Vivo</span>
+          </div>
+          <div class="showcase-pill">
+            <i class="ph ph-shield-check"></i>
+            <span>Protección de Ecosistemas de Bolivia</span>
+          </div>
+        </div>
+
+        <!-- Indicadores interactivos del Slideshow (Dots) -->
+        <div class="slideshow-dots" id="slideshowDots" role="tablist" aria-label="Selector de imágenes">
+          <button class="dot active" role="tab" aria-selected="true" aria-label="Imagen 1: Bosque en llamas" data-index="0"></button>
+          <button class="dot" role="tab" aria-selected="false" aria-label="Imagen 2: Amanecer en la montaña" data-index="1"></button>
+          <button class="dot" role="tab" aria-selected="false" aria-label="Imagen 3: Cóndor sobre el incendio" data-index="2"></button>
+          <button class="dot" role="tab" aria-selected="false" aria-label="Imagen 4: Valle al atardecer" data-index="3"></button>
+          <button class="dot" role="tab" aria-selected="false" aria-label="Imagen 5: Reflejo en el río" data-index="4"></button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── COLUMNA DERECHA: FORMULARIO GLASSMORPHIC DE ACCESO ──────────── -->
+    <main class="login-form-pane">
+      <div class="login-card" id="loginCard">
+
+        <!-- Logotipo y título -->
+        <header class="login-header">
+          <div class="login-logo-wrapper">
+            <div class="login-logo-glow"></div>
+            <img src="/IMG/LogoFireTrace.png" alt="Logotipo FireTrace" class="login-logo">
+          </div>
+          <h1 class="login-title">FireTrace</h1>
+          <p class="login-subtitle">Sistema de Monitoreo de Incendios Forestales</p>
+          <span class="login-nasa-badge">NASA Space Apps Challenge 2026 · Bolivia</span>
+        </header>
+
+        <!-- Formulario de autenticación -->
+        <form id="loginForm" novalidate autocomplete="on">
+
+          <!-- Caja de alerta para errores -->
+          <div id="loginAlert" class="login-alert" role="alert" aria-live="assertive">
+            <i class="ph ph-warning-circle"></i>
+            <span id="loginAlertText">Usuario o contraseña incorrectos.</span>
+          </div>
+
+          <!-- Campo Usuario -->
+          <div class="input-floating-group">
+            <i class="ph ph-user input-icon-left" aria-hidden="true"></i>
+            <input 
+              type="text" 
+              id="usuario" 
+              name="usuario" 
+              class="floating-input" 
+              placeholder=" " 
+              required 
+              autocomplete="username"
+              spellcheck="false">
+            <label for="usuario" class="floating-label">Usuario o Correo Electrónico</label>
+          </div>
+
+          <!-- Campo Contraseña -->
+          <div class="input-floating-group">
+            <i class="ph ph-lock-key input-icon-left" aria-hidden="true"></i>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="floating-input" 
+              placeholder=" " 
+              required 
+              autocomplete="current-password">
+            <label for="password" class="floating-label">Contraseña</label>
+            <button 
+              type="button" 
+              class="btn-toggle-password" 
+              id="togglePassword" 
+              aria-label="Mostrar u ocultar contraseña" 
+              title="Mostrar u ocultar contraseña">
+              <i class="ph ph-eye" id="togglePasswordIcon"></i>
+            </button>
+          </div>
+
+          <!-- Opciones adicionales: Recordar sesión -->
+          <div class="form-options-row">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="rememberMe" name="rememberMe">
+              <span>Recordar mi usuario</span>
+            </label>
+          </div>
+
+          <!-- Botón Principal: Iniciar Sesión -->
+          <button type="submit" class="btn-login" id="btnLogin">
+            <span class="btn-spinner" aria-hidden="true"></span>
+            <i class="ph ph-sign-in btn-icon" aria-hidden="true"></i>
+            <span class="btn-text">Iniciar Sesión</span>
+          </button>
+
+          <!-- Separador visual -->
+          <div class="login-divider">
+            <span>o</span>
+          </div>
+
+          <!-- Botón Secundario: Ojos Del Bosque -->
+          <button type="button" class="btn-guest btn-ojos-bosque" id="btnGuest" style="border: 1px solid rgba(46, 204, 113, 0.45); background: linear-gradient(135deg, rgba(20, 80, 45, 0.4), rgba(10, 40, 25, 0.6)); color: #a3f7bf; box-shadow: 0 4px 16px rgba(46, 204, 113, 0.15);">
+            <i class="ph ph-binoculars" aria-hidden="true" style="font-size: 1.15rem; color: #2ecc71;"></i>
+            <span>Ingresar como Ojos Del Bosque</span>
+          </button>
+
+          <!-- Perfiles de Acceso Rápido para Pruebas -->
+          <div class="demo-profiles-container" style="margin-top: 1.2rem; padding: 0.9rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(220,80,30,0.25); border-radius: 12px; font-size: 0.78rem;">
+            <div style="font-weight: 700; color: #f0c880; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.45rem;">
+              <i class="ph ph-key" style="font-size: 1rem; color: #ff6530;"></i>
+              <span>Perfiles de Prueba Rápidos:</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem;">
+              <button type="button" class="btn-demo-pill" id="demoAdmin" style="padding: 0.45rem 0.5rem; border-radius: 8px; border: 1px solid rgba(220,80,30,0.35); background: rgba(220,80,30,0.15); color: #f5d5b0; font-size: 0.73rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.35rem; transition: all 0.2s;">
+                <i class="ph ph-shield-check"></i> Admin
+              </button>
+              <button type="button" class="btn-demo-pill" id="demoBombero" style="padding: 0.45rem 0.5rem; border-radius: 8px; border: 1px solid rgba(240,140,20,0.35); background: rgba(240,140,20,0.15); color: #f5d5b0; font-size: 0.73rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.35rem; transition: all 0.2s;">
+                <i class="ph ph-fire-extinguisher"></i> Bombero
+              </button>
+              <button type="button" class="btn-demo-pill" id="demoAmbulancia" style="padding: 0.45rem 0.5rem; border-radius: 8px; border: 1px solid rgba(40,140,220,0.35); background: rgba(40,140,220,0.15); color: #b0d5f5; font-size: 0.73rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.35rem; transition: all 0.2s;">
+                <i class="ph ph-first-aid"></i> Ambulancia
+              </button>
+            </div>
+          </div>
+
+        </form>
+
+        <!-- Pie institucional -->
+        <footer class="login-footer">
+          <p class="login-footer-text">Sistema de Monitoreo de Incendios Forestales · Bolivia</p>
+          <p class="login-footer-nasa">NASA Space Apps Challenge 2026</p>
+        </footer>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Script de Interactividad del Login -->
+  <script src="/js/pages/login.js" defer></script>
+</body>
+</html>

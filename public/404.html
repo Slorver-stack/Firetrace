@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 - FireTrace</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<style>
+  :root {
+    --color-fire: #e8632a;
+    --color-bg: #0a0804;
+    --color-text: #f5f0e8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+  .err-container { max-width: 500px; }
+  .err-code { font-family: 'Syne', sans-serif; font-size: 8rem; font-weight: 800; color: var(--color-fire); line-height: 1; }
+  .err-title { font-size: 1.5rem; font-weight: 700; margin: 1rem 0 0.5rem; }
+  .err-text { color: #c0a880; margin-bottom: 2rem; }
+  .btn-back {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--color-fire); color: #fff; text-decoration: none;
+    padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .btn-back:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(232,99,42,0.4); }
+</style>
+</head>
+<body>
+  <div class="err-container">
+    <div class="err-code">404</div>
+    <h1 class="err-title">Página no encontrada</h1>
+    <p class="err-text">La página que buscas no existe o fue movida.</p>
+    <a href="/dashboard" class="btn-back">
+      <i class="ph ph-house"></i>
+      Volver al Dashboard
+    </a>
+  </div>
+</body>
+</html>

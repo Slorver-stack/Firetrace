@@ -1,0 +1,331 @@
+/**
+ * ==========================================================================
+ * FIRETRACE - EFECTO DE CENIZAS Y BRASAS CAYENDO (ASH EFFECT)
+ * NASA Space Apps Challenge 2026
+ * Archivo: public/css/ash-effect.css
+ * ==========================================================================
+ */
+
+/* ── 1. ZONA DE ACTIVACIÓN DE CENIZAS ────────────────────────────────────── */
+.ash-zone {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Contenedor de partículas de ceniza */
+.ash-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* Partícula base de ceniza */
+.ash-particle {
+  position: absolute;
+  top: -20px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Partícula con brasa incandescente */
+.ash-particle.ember {
+  background: radial-gradient(circle, #ffe3c7 0%, #ff8c42 50%, #e8632a 100%) !important;
+  box-shadow: 0 0 8px rgba(255, 107, 53, 0.8), 0 0 14px rgba(232, 99, 42, 0.5) !important;
+}
+
+/* ── 2. KEYFRAMES DE CAÍDA Y VAIVÉN HORIZONTAL REALISTA ─────────────────── */
+@keyframes ashFallSway1 {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg) scale(0.8);
+  }
+  15% {
+    opacity: 0.85;
+  }
+  35% {
+    transform: translateY(35vh) translateX(20px) rotate(80deg) scale(1);
+  }
+  65% {
+    transform: translateY(65vh) translateX(-15px) rotate(180deg) scale(0.9);
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(105vh) translateX(25px) rotate(360deg) scale(0.7);
+  }
+}
+
+@keyframes ashFallSway2 {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+  }
+  10% {
+    opacity: 0.8;
+  }
+  40% {
+    transform: translateY(40vh) translateX(-24px) rotate(-100deg) scale(0.85);
+  }
+  70% {
+    transform: translateY(70vh) translateX(18px) rotate(-210deg) scale(0.95);
+  }
+  85% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(105vh) translateX(-16px) rotate(-360deg) scale(0.6);
+  }
+}
+
+@keyframes ashFallSway3 {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  20% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(50vh) translateX(30px) rotate(135deg);
+  }
+  80% {
+    opacity: 0.7;
+    transform: translateY(80vh) translateX(-12px) rotate(250deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(105vh) translateX(18px) rotate(360deg);
+  }
+}
+
+/* Compatibilidad con animación genérica de caída */
+@keyframes ashFall {
+  0% { top: -20px; opacity: 0; }
+  15% { opacity: 0.8; }
+  85% { opacity: 0.7; }
+  100% { top: 105%; opacity: 0; }
+}
+
+@keyframes ashSway {
+  0% { transform: translateX(0px) rotate(0deg); }
+  25% { transform: translateX(25px) rotate(45deg); }
+  50% { transform: translateX(-15px) rotate(90deg); }
+  75% { transform: translateX(30px) rotate(135deg); }
+  100% { transform: translateX(0px) rotate(180deg); }
+}
+
+/* ── 3. 20 PARTÍCULAS CON TAMAÑOS, VELOCIDADES Y RETRASOS VARIADOS ──────── */
+/* Colores exigidos: gris ceniza (#8a8078), gris oscuro (#4a3a2a), negro-ceniza (#1a1010) */
+
+/* 1. Gris ceniza */
+.ash-particle:nth-child(1) {
+  left: 4%;
+  width: 4px;
+  height: 5px;
+  background-color: #8a8078;
+  animation: ashFallSway1 6.5s infinite linear;
+  animation-delay: 0s;
+}
+
+/* 2. Gris oscuro */
+.ash-particle:nth-child(2) {
+  left: 9%;
+  width: 6px;
+  height: 6px;
+  background-color: #4a3a2a;
+  animation: ashFallSway2 8.2s infinite ease-in-out;
+  animation-delay: 1.2s;
+}
+
+/* 3. Negro-ceniza */
+.ash-particle:nth-child(3) {
+  left: 15%;
+  width: 3px;
+  height: 4px;
+  background-color: #1a1010;
+  animation: ashFallSway3 9.5s infinite linear;
+  animation-delay: 2.5s;
+}
+
+/* 4. Brasa tenue */
+.ash-particle:nth-child(4) {
+  left: 21%;
+  width: 5px;
+  height: 5px;
+  background: radial-gradient(circle, #e8632a 30%, #4a3a2a 100%);
+  box-shadow: 0 0 6px rgba(232, 99, 42, 0.5);
+  animation: ashFallSway1 5.8s infinite ease-in;
+  animation-delay: 0.7s;
+}
+
+/* 5. Gris ceniza alargada */
+.ash-particle:nth-child(5) {
+  left: 27%;
+  width: 7px;
+  height: 8px;
+  border-radius: 40% 60% 60% 40%;
+  background-color: #8a8078;
+  animation: ashFallSway2 11.2s infinite linear;
+  animation-delay: 3.8s;
+}
+
+/* 6. Gris oscuro */
+.ash-particle:nth-child(6) {
+  left: 33%;
+  width: 4px;
+  height: 3px;
+  background-color: #4a3a2a;
+  animation: ashFallSway3 7.4s infinite ease-out;
+  animation-delay: 1.9s;
+}
+
+/* 7. Negro-ceniza */
+.ash-particle:nth-child(7) {
+  left: 39%;
+  width: 5px;
+  height: 6px;
+  background-color: #1a1010;
+  animation: ashFallSway1 8.8s infinite linear;
+  animation-delay: 4.2s;
+}
+
+/* 8. Brasa brillante */
+.ash-particle:nth-child(8) {
+  left: 45%;
+  width: 3px;
+  height: 3px;
+  background: #ff8c42;
+  box-shadow: 0 0 8px #ff6b35;
+  animation: ashFallSway2 6.1s infinite ease-in-out;
+  animation-delay: 0.3s;
+}
+
+/* 9. Gris ceniza fino */
+.ash-particle:nth-child(9) {
+  left: 52%;
+  width: 5px;
+  height: 4px;
+  background-color: #8a8078;
+  animation: ashFallSway3 10.1s infinite linear;
+  animation-delay: 2.1s;
+}
+
+/* 10. Gris oscuro */
+.ash-particle:nth-child(10) {
+  left: 58%;
+  width: 4px;
+  height: 5px;
+  background-color: #4a3a2a;
+  animation: ashFallSway1 7.9s infinite ease-in-out;
+  animation-delay: 5.1s;
+}
+
+/* 11. Negro-ceniza escama */
+.ash-particle:nth-child(11) {
+  left: 64%;
+  width: 7px;
+  height: 4px;
+  border-radius: 50% 20% 50% 30%;
+  background-color: #1a1010;
+  animation: ashFallSway2 12.5s infinite linear;
+  animation-delay: 1.5s;
+}
+
+/* 12. Brasa */
+.ash-particle:nth-child(12) {
+  left: 70%;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #ff6b35 30%, #1a1010 100%);
+  box-shadow: 0 0 6px rgba(255, 107, 53, 0.5);
+  animation: ashFallSway3 6.9s infinite ease-out;
+  animation-delay: 3.2s;
+}
+
+/* 13. Gris ceniza */
+.ash-particle:nth-child(13) {
+  left: 76%;
+  width: 5px;
+  height: 6px;
+  background-color: #8a8078;
+  animation: ashFallSway1 9.2s infinite linear;
+  animation-delay: 0.9s;
+}
+
+/* 14. Negro-ceniza */
+.ash-particle:nth-child(14) {
+  left: 81%;
+  width: 6px;
+  height: 7px;
+  background-color: #1a1010;
+  animation: ashFallSway2 10.7s infinite ease-in-out;
+  animation-delay: 4.6s;
+}
+
+/* 15. Gris oscuro */
+.ash-particle:nth-child(15) {
+  left: 86%;
+  width: 3px;
+  height: 4px;
+  background-color: #4a3a2a;
+  animation: ashFallSway3 8.0s infinite linear;
+  animation-delay: 2.8s;
+}
+
+/* 16. Gris ceniza */
+.ash-particle:nth-child(16) {
+  left: 91%;
+  width: 5px;
+  height: 5px;
+  background-color: #8a8078;
+  animation: ashFallSway1 7.1s infinite ease-in;
+  animation-delay: 1.7s;
+}
+
+/* 17. Brasa pequeña */
+.ash-particle:nth-child(17) {
+  left: 36%;
+  width: 3px;
+  height: 3px;
+  background-color: #e8632a;
+  box-shadow: 0 0 6px #e8632a;
+  animation: ashFallSway2 6.3s infinite ease-in-out;
+  animation-delay: 3.5s;
+}
+
+/* 18. Gris ceniza */
+.ash-particle:nth-child(18) {
+  left: 49%;
+  width: 4px;
+  height: 5px;
+  background-color: #8a8078;
+  animation: ashFallSway3 11.8s infinite linear;
+  animation-delay: 5.7s;
+}
+
+/* 19. Negro-ceniza */
+.ash-particle:nth-child(19) {
+  left: 68%;
+  width: 7px;
+  height: 5px;
+  background-color: #1a1010;
+  animation: ashFallSway1 9.8s infinite ease-out;
+  animation-delay: 2.3s;
+}
+
+/* 20. Gris oscuro */
+.ash-particle:nth-child(20) {
+  left: 83%;
+  width: 4px;
+  height: 4px;
+  background-color: #4a3a2a;
+  animation: ashFallSway2 8.6s infinite linear;
+  animation-delay: 4.0s;
+}

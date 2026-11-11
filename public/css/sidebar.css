@@ -1,0 +1,515 @@
+/**
+ * ==========================================================================
+ * FIRETRACE - BARRA LATERAL (SIDEBAR)
+ * NASA Space Apps Challenge 2026
+ * Archivo: public/css/sidebar.css
+ * ==========================================================================
+ */
+
+/* ── 1. ESTRUCTURA Y CONTENEDOR PRINCIPAL ────────────────────────────────── */
+.ft-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 260px;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--color-bg-deep);
+  border-right: 1px solid rgba(232, 99, 42, 0.22);
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.7);
+  transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
+  user-select: none;
+}
+
+/* Modo colapsado: ancho 70px */
+.ft-sidebar.collapsed,
+body.sidebar-collapsed .ft-sidebar {
+  width: 70px;
+}
+
+/* ── 2. CAPAS DE FONDO CAMBIANTE (CROSSFADE ULTRA SUAVE Y 100% ACOPLE) ───── */
+.sidebar-bg-container,
+.sidebar-bg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sidebar-bg-img,
+.sidebar-bg-layer > div {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100% !important;
+  background-position: center top !important;
+  background-repeat: no-repeat !important;
+  opacity: 0;
+  filter: brightness(0.92) contrast(1.15) saturate(1.22);
+  transform: scale(1.0);
+  transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-bg-img.active,
+.sidebar-bg-layer > div.active {
+  opacity: 0.96;
+  transform: scale(1.0);
+}
+
+.sidebar-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 4, 2, 0.58) 0%,
+    rgba(14, 7, 3, 0.32) 32%,
+    rgba(10, 5, 2, 0.40) 70%,
+    rgba(6, 3, 1, 0.72) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── 3. CABECERA: LOGO, TÍTULO Y BOTÓN TOGGLE ────────────────────────────── */
+.sidebar-header,
+.sidebar-logo {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.15rem 1.15rem;
+  border-bottom: 1px solid rgba(232, 99, 42, 0.16);
+  min-height: 72px;
+  overflow: visible;
+}
+
+.sidebar-brand-wrapper,
+.sidebar-brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+  overflow: hidden;
+  flex: 1;
+}
+
+.sidebar-logo-img,
+.sidebar-logo img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(255, 107, 53, 0.65));
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header:hover .sidebar-logo-img,
+.sidebar-logo:hover .sidebar-logo-img {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.sidebar-brand-text,
+.sidebar-logo-text {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  transition: opacity 250ms ease, transform 250ms ease;
+  overflow: hidden;
+}
+
+.brand-name,
+.sidebar-brand {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, #ffffff 0%, var(--color-fire-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.15;
+}
+
+.brand-tag,
+.sidebar-subbrand {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-fire-primary);
+  opacity: 0.95;
+  margin-top: 2px;
+}
+
+/* Botón Toggle de Colapso con rotación */
+.sidebar-toggle {
+  position: absolute;
+  right: -13px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-card, #1c140e);
+  border: 1px solid var(--color-fire-primary, #e8632a);
+  color: var(--color-fire-secondary, #ff8c42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(232, 99, 42, 0.45);
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+}
+
+.sidebar-toggle:hover {
+  background: var(--color-fire-primary);
+  color: #000;
+  box-shadow: 0 0 16px var(--color-fire-glow);
+}
+
+.sidebar-toggle i {
+  font-size: 0.85rem;
+  transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Rotación en estado colapsado */
+.ft-sidebar.collapsed .sidebar-toggle i,
+body.sidebar-collapsed .ft-sidebar .sidebar-toggle i {
+  transform: rotate(180deg);
+}
+
+.ft-sidebar.collapsed .sidebar-brand-text,
+.ft-sidebar.collapsed .sidebar-logo-text,
+body.sidebar-collapsed .ft-sidebar .sidebar-brand-text,
+body.sidebar-collapsed .ft-sidebar .sidebar-logo-text {
+  opacity: 0;
+  transform: translateX(-15px);
+  pointer-events: none;
+  width: 0;
+  display: none;
+}
+
+/* ── 4. NAVEGACIÓN Y MENÚ ────────────────────────────────────────────────── */
+.sidebar-nav {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  padding: 0.85rem 0.75rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: rgba(232, 99, 42, 0.25);
+  border-radius: 2px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-item {
+  position: relative;
+  width: 100%;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 0.95rem;
+  border-radius: var(--radius-md);
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.sidebar-icon {
+  font-size: 1.25rem;
+  color: #94a3b8;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.sidebar-text,
+.sidebar-label {
+  transition: opacity 250ms ease, transform 250ms ease;
+  line-height: 1.2;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 0.25rem;
+}
+
+/* Hover con glow y desplazamiento */
+.sidebar-link:hover {
+  color: #ffffff;
+  background: rgba(232, 99, 42, 0.16);
+  transform: translateX(4px);
+}
+
+.sidebar-link:hover .sidebar-icon {
+  color: var(--color-fire-secondary);
+  filter: drop-shadow(0 0 6px rgba(255, 140, 66, 0.6));
+}
+
+/* Estado Activo con resplandor fuego */
+.sidebar-link.active,
+.sidebar-item.active .sidebar-link {
+  color: #ffffff;
+  font-weight: 600;
+  background: linear-gradient(90deg, rgba(232, 99, 42, 0.32) 0%, rgba(232, 99, 42, 0.08) 100%);
+  border-left: 3px solid var(--color-fire-primary);
+  box-shadow: inset 0 0 14px rgba(232, 99, 42, 0.18);
+}
+
+.sidebar-link.active .sidebar-icon,
+.sidebar-item.active .sidebar-icon {
+  color: var(--color-fire-glow);
+  filter: drop-shadow(0 0 8px var(--color-fire-glow));
+}
+
+/* Indicador de punto rojo animado (Incendio en vivo) */
+.live-dot-pulse,
+.sidebar-live-dot {
+  width: 9px;
+  height: 9px;
+  min-width: 9px;
+  min-height: 9px;
+  background: #ff2d2d;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ff2200, 0 0 4px #ff6600;
+  animation: liveBeacon 1.2s infinite ease-in-out;
+  flex-shrink: 0;
+  margin-left: auto;
+  margin-right: 6px;
+  display: inline-block;
+}
+
+@keyframes liveBeacon {
+  0% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 4px #ff2d2d; }
+  50% { transform: scale(1.3); opacity: 0.8; box-shadow: 0 0 12px #ff4d4d; }
+  100% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 4px #ff2d2d; }
+}
+
+/* ── 5. ESTILOS EN MODO COLAPSADO Y TOOLTIPS ───────────────────────────────── */
+.ft-sidebar.collapsed .sidebar-header,
+.ft-sidebar.collapsed .sidebar-logo,
+body.sidebar-collapsed .ft-sidebar .sidebar-header,
+body.sidebar-collapsed .ft-sidebar .sidebar-logo {
+  padding: 1.25rem 0.6rem;
+  justify-content: center;
+}
+
+.ft-sidebar.collapsed .sidebar-link,
+body.sidebar-collapsed .ft-sidebar .sidebar-link {
+  justify-content: center;
+  padding: 0.7rem 0;
+  transform: none;
+}
+
+.ft-sidebar.collapsed .sidebar-text,
+.ft-sidebar.collapsed .sidebar-label,
+.ft-sidebar.collapsed .live-dot-pulse,
+.ft-sidebar.collapsed .sidebar-live-dot,
+body.sidebar-collapsed .ft-sidebar .sidebar-text,
+body.sidebar-collapsed .ft-sidebar .sidebar-label,
+body.sidebar-collapsed .ft-sidebar .live-dot-pulse,
+body.sidebar-collapsed .ft-sidebar .sidebar-live-dot {
+  opacity: 0;
+  transform: translateX(-10px);
+  pointer-events: none;
+  width: 0;
+  display: none;
+}
+
+/* Tooltips al hover en estado colapsado */
+.ft-sidebar.collapsed .sidebar-link::after,
+.ft-sidebar.collapsed .sidebar-item:hover::after,
+body.sidebar-collapsed .ft-sidebar .sidebar-link::after,
+body.sidebar-collapsed .ft-sidebar .sidebar-item:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 14px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-8px);
+  background: rgba(26, 16, 9, 0.96);
+  backdrop-filter: blur(12px);
+  color: var(--color-text-primary);
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 140, 66, 0.35);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7), 0 0 10px rgba(232, 99, 42, 0.25);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 9999;
+}
+
+.ft-sidebar.collapsed .sidebar-link::before,
+body.sidebar-collapsed .ft-sidebar .sidebar-link::before {
+  content: '';
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 5px 6px 5px 0;
+  border-style: solid;
+  border-color: transparent rgba(255, 140, 66, 0.35) transparent transparent;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s;
+  z-index: 9999;
+}
+
+.ft-sidebar.collapsed .sidebar-link:hover::after,
+.ft-sidebar.collapsed .sidebar-item:hover::after,
+body.sidebar-collapsed .ft-sidebar .sidebar-link:hover::after,
+body.sidebar-collapsed .ft-sidebar .sidebar-item:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+.ft-sidebar.collapsed .sidebar-link:hover::before,
+body.sidebar-collapsed .ft-sidebar .sidebar-link:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── 6. PIE DE LA SIDEBAR (CITA INSPIRACIONAL Y PLANTA/HOJA) ──────────────── */
+.sidebar-footer,
+.sidebar-quote-container {
+  position: relative;
+  z-index: 2;
+  padding: 1rem 0.85rem;
+  border-top: 1px solid rgba(232, 99, 42, 0.14);
+  background: rgba(14, 8, 4, 0.6);
+  overflow: hidden;
+  transition: padding 0.3s ease;
+}
+
+.sidebar-quote {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 5;
+  padding: 0.85rem 1rem;
+  margin: 0.5rem 0.75rem 0.75rem 0.75rem;
+  background: rgba(14, 8, 4, 0.65);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(232, 99, 42, 0.22);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.quote-icon,
+.sidebar-leaf {
+  font-size: 1.35rem;
+  color: var(--color-safe, #27ae60);
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(39, 174, 96, 0.5));
+}
+
+.quote-content,
+.sidebar-quote-text {
+  display: flex;
+  flex-direction: column;
+  transition: opacity 250ms ease;
+  overflow: hidden;
+  flex: 1;
+}
+
+.quote-text {
+  font-size: 0.73rem;
+  font-style: italic;
+  font-weight: 500;
+  color: #e2e8f0;
+  line-height: 1.35;
+  margin: 0;
+  flex: 1;
+}
+
+.quote-author {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--color-fire-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+.ft-sidebar.collapsed .sidebar-footer,
+body.sidebar-collapsed .ft-sidebar .sidebar-footer {
+  padding: 0.9rem 0;
+  justify-content: center;
+}
+
+.ft-sidebar.collapsed .sidebar-quote,
+body.sidebar-collapsed .ft-sidebar .sidebar-quote {
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.ft-sidebar.collapsed .quote-content,
+.ft-sidebar.collapsed .quote-text,
+body.sidebar-collapsed .ft-sidebar .quote-content,
+body.sidebar-collapsed .ft-sidebar .quote-text {
+  opacity: 0;
+  width: 0;
+  display: none;
+}
+
+/* ── 7. AJUSTES RESPONSIVOS ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .ft-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .ft-sidebar.mobile-open {
+    transform: translateX(0);
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.75);
+  }
+
+  .ft-sidebar.collapsed {
+    transform: translateX(-100%);
+  }
+}

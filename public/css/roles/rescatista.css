@@ -1,0 +1,417 @@
+/* ============================================================
+   FIRETRACE — CSS RESCATISTA
+   Panel para equipo de rescate de fauna y personas
+   ============================================================ */
+
+/* ── Panel principal ── */
+.rescatista-panel {
+  display: block;          /* Deja que Bootstrap row/col manejen el layout */
+  padding: 1.2rem;
+  animation: fadeInPanel 0.5s ease;
+}
+
+/* ── Header zona asignada ── */
+.rescatista-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(30,140,60,0.18), rgba(5,25,10,0.6));
+  border: 1px solid rgba(50,180,80,0.3);
+  border-radius: 14px;
+  padding: 1.1rem 1.6rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rescatista-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0a6a28, #22c55e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: #fff;
+  box-shadow: 0 0 18px rgba(34,197,94,0.5);
+}
+
+.rescatista-nombre {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #b0f5d0;
+}
+
+.rescatista-zona {
+  font-size: 0.8rem;
+  color: #508060;
+}
+
+/* ── Zona info badge ── */
+.zona-badge-rescatista {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  background: rgba(34,197,94,0.12);
+  border: 1px solid rgba(34,197,94,0.3);
+  color: #80f0a0;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* ── Contador fauna en riesgo ── */
+.fauna-riesgo-contador {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.fauna-stat-card {
+  background: rgba(5,20,10,0.7);
+  border: 1px solid rgba(50,180,80,0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.fauna-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(50,180,80,0.15);
+}
+
+.fauna-stat-card .stat-num {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #50e880;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.fauna-stat-card .stat-num.critico {
+  color: #ff6060;
+  animation: pulseNum 1.5s ease infinite;
+}
+
+@keyframes pulseNum {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+.fauna-stat-card .stat-label {
+  font-size: 0.72rem;
+  color: #60a080;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.fauna-stat-card i {
+  font-size: 1.3rem;
+  color: #50c070;
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+/* ── Mapa de rescate ── */
+.mapa-rescate-container {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(50,180,80,0.25);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  margin-bottom: 1rem;
+}
+
+.mapa-rescate-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(3,12,6,0.9);
+  border-bottom: 1px solid rgba(50,180,80,0.2);
+}
+
+.mapa-rescate-header h3 {
+  font-size: 0.9rem;
+  color: #80f0a0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#mapaRescate {
+  height: 320px;
+  width: 100%;
+  background: #010802;
+}
+
+/* ── Lista de animales reportados ── */
+.animales-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.animales-lista::-webkit-scrollbar { width: 4px; }
+.animales-lista::-webkit-scrollbar-thumb { background: rgba(50,180,80,0.25); border-radius: 2px; }
+
+.animal-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.7rem 0.9rem;
+  background: rgba(3,15,8,0.7);
+  border: 1px solid rgba(50,180,80,0.15);
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.animal-item:hover {
+  border-color: rgba(50,180,80,0.35);
+  background: rgba(5,25,12,0.7);
+}
+
+.animal-icono {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(50,180,80,0.15);
+  border: 1px solid rgba(50,180,80,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #60c080;
+  flex-shrink: 0;
+}
+
+.animal-info { flex: 1; min-width: 0; }
+.animal-especie { font-size: 0.85rem; color: #a0f0c0; font-weight: 600; }
+.animal-ubicacion { font-size: 0.72rem; color: #508060; }
+
+.animal-estado {
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.estado-rescatado  { background: rgba(40,180,70,0.2);  color: #50d080; }
+.estado-pendiente  { background: rgba(240,190,20,0.2); color: #f5d050; animation: parpadeoAnimal 2s ease infinite; }
+.estado-tratamiento { background: rgba(160,80,220,0.2); color: #c080ff; }
+.estado-critico    { background: rgba(220,30,30,0.2);  color: #ff6060; animation: parpadeoAnimal 1s ease infinite; }
+
+@keyframes parpadeoAnimal {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── Protocolo de rescate (acordeón) ── */
+.protocolo-acordeon {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.protocolo-item {
+  border: 1px solid rgba(50,180,80,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.protocolo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  background: rgba(3,15,8,0.7);
+  cursor: pointer;
+  transition: background 0.2s;
+  user-select: none;
+}
+
+.protocolo-header:hover {
+  background: rgba(5,25,12,0.8);
+}
+
+.protocolo-header h4 {
+  font-size: 0.83rem;
+  color: #80e0a0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.protocolo-header .ph-caret-down {
+  font-size: 0.9rem;
+  color: #50a070;
+  transition: transform 0.25s;
+}
+
+.protocolo-item.abierto .ph-caret-down {
+  transform: rotate(180deg);
+}
+
+.protocolo-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.25s;
+}
+
+.protocolo-item.abierto .protocolo-body {
+  max-height: 300px;
+  padding: 0.7rem 1rem 0.9rem;
+  background: rgba(2,10,4,0.7);
+  border-top: 1px solid rgba(50,180,80,0.15);
+}
+
+.protocolo-paso {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  color: #70b090;
+}
+
+.protocolo-paso-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(50,180,80,0.2);
+  border: 1px solid rgba(50,180,80,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #50c070;
+  flex-shrink: 0;
+}
+
+/* ── Condiciones del terreno ── */
+.terreno-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.7rem;
+}
+
+.terreno-item {
+  background: rgba(3,15,8,0.7);
+  border: 1px solid rgba(50,180,80,0.15);
+  border-radius: 10px;
+  padding: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.terreno-item i { font-size: 1.3rem; color: #50a070; }
+.terreno-item .terreno-label { font-size: 0.7rem; color: #508060; text-transform: uppercase; letter-spacing: 0.06em; }
+.terreno-item .terreno-valor { font-size: 0.9rem; font-weight: 700; color: #a0f0c0; }
+
+/* ── Inventario de equipo ── */
+.equipo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.equipo-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  background: rgba(3,12,6,0.6);
+  border: 1px solid rgba(50,180,80,0.12);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  color: #80b090;
+}
+
+.equipo-item i { color: #40a060; font-size: 1rem; flex-shrink: 0; }
+
+.equipo-estado-ok  { width: 8px; height: 8px; border-radius: 50%; background: #40c060; margin-left: auto; }
+.equipo-estado-rev { width: 8px; height: 8px; border-radius: 50%; background: #f0c040; margin-left: auto; }
+
+/* ── Log de comunicación (chat estilo) ── */
+.log-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 0.3rem;
+}
+
+.log-chat::-webkit-scrollbar { width: 4px; }
+.log-chat::-webkit-scrollbar-thumb { background: rgba(50,180,80,0.2); border-radius: 2px; }
+
+.log-mensaje {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.log-mensaje .log-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: #507060;
+}
+
+.log-mensaje .log-remitente { color: #60c080; font-weight: 600; }
+
+.log-mensaje .log-texto {
+  padding: 0.5rem 0.8rem;
+  background: rgba(3,15,8,0.7);
+  border: 1px solid rgba(50,180,80,0.12);
+  border-radius: 8px;
+  border-top-left-radius: 0;
+  font-size: 0.8rem;
+  color: #90c0a0;
+}
+
+.log-mensaje.propio .log-texto {
+  background: rgba(34,197,94,0.1);
+  border-color: rgba(34,197,94,0.2);
+  border-radius: 8px;
+  border-top-right-radius: 0;
+  align-self: flex-end;
+}
+
+/* ── Btn reportar avistamiento ── */
+.btn-reportar-fauna {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(50,180,80,0.4);
+  background: linear-gradient(135deg, rgba(50,180,80,0.2), rgba(20,100,40,0.3));
+  color: #80f0a0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-reportar-fauna:hover {
+  background: linear-gradient(135deg, rgba(50,180,80,0.35), rgba(20,100,40,0.5));
+  box-shadow: 0 4px 16px rgba(50,180,80,0.3);
+}
+
+/* ── Responsivo ── */
+@media (max-width: 900px) {
+  .rescatista-panel { grid-template-columns: 1fr; }
+  .fauna-riesgo-contador { grid-template-columns: repeat(2, 1fr); }
+  .terreno-grid, .equipo-grid { grid-template-columns: 1fr 1fr; }
+}
